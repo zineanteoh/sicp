@@ -1,0 +1,53 @@
+#lang sicp
+
+; Ex 1.32
+
+; 'accumulate' procedure that is an abstraction of anything
+; ... that accumulates, such as 'sum' or 'product' 
+(define (accumulate combiner null-value term a next b)
+  (if (> a b)
+      null-value
+      (combiner (term a)
+                (accumulate combiner null-value term (next a) next b))))
+
+; 'product' procedure that is based on 'accumulate' 
+(define (product term a next b)
+  (accumulate * 1.0 term a next b))
+(define (cube x) (* x x x))
+(define (inc x) (+ x 1))
+
+; 'sum' procedure that is based on 'accumulate'
+(define (sum term a next b)
+  (accumulate + 0 term a next b))
+
+#|
+; 'product' procedure that is analogous to 'sum', recursively
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a)
+         (product term (next a) next b))))
+
+; 'product-iterative' procedure generates an iterative process
+(define (product-iterative term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a)
+              (* (term a)
+                 result))))
+  (iter a 1.0))
+|# 
+#|
+; 'sum' procedure for reference:
+
+(define (sum term a next b)
+  (if (> a b)
+      0
+      (+ (term a)
+         (sum term (next a) next b))))
+(define (cube x) (* x x x))
+(define (inc x) (+ x 1))
+(display "(sum cube 0 inc 3): \n")
+(sum cube 0 inc 3) ; 36
+|#
