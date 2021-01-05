@@ -1,5 +1,5 @@
 # SICP
- SICP (Structure and Intepretation of Computer Programs) is a Computer Science textbook by MIT professors Harold Abelson & Gerald Jay Sussman with Julie Sussman. 
+ SICP (Structure and Intepretation of Computer Programs) is a Computer Science [textbook](https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book.html) by MIT professors Harold Abelson & Gerald Jay Sussman with Julie Sussman. 
  
  This book is also notoriously known as a masterpiece and "the Wizard Book in hacker culture."
  
