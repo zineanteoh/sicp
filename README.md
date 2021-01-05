@@ -19,4 +19,5 @@
  * Highlight key ideas & take note on important concepts 
  * Replicate confusing code on DrRacket & mess around until I 'get it'
  * Jot down moments where I experience eureka or get mindblowned by the authors. 
- * Complete all exercises and log them in this GitHub repository
+ * Complete all exercises and log them in this GitHub repository 
+   * Exercises that do not require the need to code are answered on the [PDF notes](https://github.com/zineanteoh/sicp/blob/main/SICP.pdf) instead
