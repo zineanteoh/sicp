@@ -7,11 +7,12 @@
  
  November 27th 2020 marks the day I embark on a journey to explore SICP. 
  
- On that day, I installed [DrRacket](http://racket-lang.org/) as my programming environment and typed out my first line with Racket, the Scheme dialect of [Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)). 
+ On that day, I installed [DrRacket](http://racket-lang.org/) as my programming environment and typed out my first few lines with Racket, the Scheme dialect of [Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)). 
  
 ```Scheme
 (display "Hello World")
 (define (square x) (* x x))
+(+ 5 (square 8))
 ```
 
  As I go through the SICP book, my habit is to 
