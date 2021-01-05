@@ -19,3 +19,4 @@
  * Highlight key ideas & take note on important concepts 
  * Replicate confusing code on DrRacket & mess around until I 'get it'
  * Jot down moments where I experience eureka or get mindblowned by the authors. 
+ * Complete all exercises and log them in this GitHub repository
