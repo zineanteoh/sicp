@@ -1,0 +1,84 @@
+#lang sicp
+
+; Ex 2.2
+(define (make-point x y) (cons x y))
+(define (x-point p) (car p))
+(define (y-point p) (cdr p))
+
+(define (make-segment p1 p2) (cons p1 p2))
+(define (start-segment segment) (car segment))
+(define (end-segment segment) (cdr segment))
+
+(define (midpoint-segment segment)
+  (make-point (average (x-point (start-segment segment))
+                       (x-point (end-segment segment)))
+              (average (y-point (start-segment segment))
+                       (y-point (end-segment segment)))))
+(define (length-segment segment)
+  (sqrt (+ (square (- (x-point (start-segment segment))
+                      (x-point (end-segment segment))))
+           (square (- (y-point (start-segment segment))
+                      (y-point (end-segment segment)))))))
+
+(define (print-point p)
+  (newline)
+  (display "(")
+  (display (x-point p))
+  (display ",")
+  (display (y-point p))
+  (display ")")
+  (newline))
+
+; Supporting procedures
+(define (average a b) (/ (+ a b) 2.0))
+(define (square x) (* x x))
+
+; Test if it works
+(print-point (midpoint-segment (make-segment (make-point 0 0) (make-point 5 5))))
+
+; Ex 2.3
+
+; Implementation 1: Rect represented by segments (horizontal & vertical)
+; where the head of v-segment = tail of h-segment
+
+(define (make-rect h v) (cons h v))
+(define (h-segment rect) (car rect))
+(define (v-segment rect) (cdr rect))
+(define (width-rect rect)
+  (length-segment (h-segment rect)))
+(define (height-rect rect)
+  (length-segment (v-segment rect)))
+
+; Implementation 2: Rect represented by corners (bottom-left corner & top-right corner)
+; Commented out so that program runs.
+#|
+(define (make-rect start end) (cons start end)) 
+(define (start-corner rect) (car rect)) 
+(define (end-corner rect) (cdr rect))
+(define (width-rect rect)
+  (abs (- (x-point (start-corner rect))
+          (x-point (end-corner rect)))))
+(define (height-rect rect)
+  (abs (- (y-point (start-corner rect))
+          (y-point (end-corner rect)))))
+|#
+
+; Perimeter & Area that works on both implementations of Rect
+(define (perimeter rect)
+  (* (+ (width-rect rect)
+        (height-rect rect))
+     2))
+
+(define (area rect)
+  (* (width-rect rect)
+     (height-rect rect)))
+
+; Test Implementation 1
+(define r1 (make-rect (make-segment (make-point 0 0) (make-point 5 0))
+             (make-segment (make-point 5 0) (make-point 5 10))))
+; Test Implementation 2 (uncomment)
+;(define r1 (make-rect (make-point 0 0) (make-point 5 10)))
+
+; Print result
+(perimeter r1)
+(area r1)
