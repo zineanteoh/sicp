@@ -31,7 +31,8 @@
   (lambda (f) (lambda (x) (f (f (f (f x)))))))
 (define (add-1 n)
   (lambda (f) (lambda (x) (f ((n f) x)))))
-
+(define (add a b)
+  (lambda (f) (lambda (x) ((a f) ((b f) x)))))
 ; Figuring out 'add' procedure (TOOK ME A LONG TIME):
 ; ... 1. Observe 'add-1' procedure,
 ; ... 2. Notice how to add one level of (f x) to n levels, 
@@ -44,8 +45,8 @@
 ; ... 7. Combine together (outer-level inner-level) to get
 ; ...    = ((a f) ((b f) x))
 ; ... 8. Not entirely confident, but after checking it, it does work! 
-(define (add a b)
-  (lambda (f) (lambda (x) ((a f) ((b f) x)))))
+
+
 
 ; Check that (add a b) works
 #|
