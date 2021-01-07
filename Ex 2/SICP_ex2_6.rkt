@@ -34,14 +34,13 @@
 
 ; Figuring out 'add' procedure (TOOK ME A LONG TIME):
 ; ... 1. Observe 'add-1' procedure,
-; ... 2. Notice how to add an additional level of (f x), 
+; ... 2. Notice how to add one level of (f x) to n levels, 
 ; ...    (f inner-level) is used, where inner-level = ((n f) x)
-; ... 3. The procedure (add a b) needs to add 'b' levels
-; ...    of (f x) to the existing 'a' levels
-; ... 4. The inner-level for (add a b) can be obtained by mimicking the inner-level
-; ...    of 'add-1', thus we will get inner-level = ((b f) x)
-; ... 6. Apply this inner-level to the existing 'a' levels
-; ...    (a f)
+; ... 3. The procedure (add a b) needs to add 'a' levels
+; ...    to 'b' levels
+; ... 4. The 'b' levels can be obtained by mimicking the inner-level
+; ...    of 'add-1' by letting n = b: ((b f) x)
+; ... 6. Apply this inner-level to the existing 'a' levels: (a f)
 ; ... 7. Combine together (outer-level inner-level) to get
 ; ...    = ((a f) ((b f) x))
 ; ... 8. Not entirely confident, but after checking it, it does work! 
@@ -56,9 +55,6 @@
 (lambda (f) (lambda (x) ((lambda (x1) (f (f x1))) (f (f x)))))
 (lambda (f) (lambda (x) (f (f (f (f x)))))) ; YES IT WORKS
 |#
-
-
-
 
 ; Working draft (to find 'add') below... it's a mess
 
