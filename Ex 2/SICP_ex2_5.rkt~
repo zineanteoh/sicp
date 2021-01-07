@@ -1,0 +1,22 @@
+#lang sicp
+
+; Ex 2.5
+
+(define (cons a b)
+  (* (expt 2 a)
+     (expt 3 b)))
+
+(define (car z)
+  (reduce z 3))
+
+(define (cdr z)
+  (reduce z 2))
+
+(define (reduce n base-to-eliminate)
+  (if (= (remainder n base-to-eliminate) 0)
+      (reduce (/ n base-to-eliminate) base-to-eliminate)
+      (round (logb (/ 6 base-to-eliminate) n))))
+
+(define (logb b x)
+  (/ (log x)
+     (log b)))

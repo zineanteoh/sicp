@@ -1,0 +1,21 @@
+#lang sicp
+
+; Ex 2.6
+
+(define zero
+  (lambda (f) (lambda (x) x)))
+
+(define (add-1 n)
+  (lambda (f) (lambda (x) (f ((n f) x)))))
+
+
+
+(add-1 zero)
+(lambda (f) (lambda (x) (f ((zero f) x))))
+; ...
+(zero f)
+(lambda (x1) x1)
+; ...
+(lambda (f) (lambda (x) (f ((lambda (x1) x1) x))))
+(lambda (f) (lambda (x) (f x))) ; is this one?
+(lambda (f) (lambda (x) (f x)))
