@@ -12,5 +12,6 @@
         (l (lower-bound y)))
     (if (= (* u l) 0)
         (display "Error. Division by zero")
-        (make-interval (/ 1.0 u)
-                       (/ 1.0 l)))))
+        (mul-interval x
+                      (make-interval (/ 1.0 u)
+                       (/ 1.0 l))))))
