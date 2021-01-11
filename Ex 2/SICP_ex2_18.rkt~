@@ -1,0 +1,23 @@
+#lang sicp
+
+; Supporting Procedures
+(define (length list)
+  (if (null? list)
+      0
+      (+ 1 (length (cdr list)))))
+
+(define (append l1 l2)
+  (if (null? l1)
+      l2
+      (cons (car l1) (append (cdr l1) l2))))
+
+; Ex 2.18
+
+(define (reverse start_list)
+  (define (append-item item list)
+    (cons item list))
+  (define (iter-add l end_list)
+    (if (null? l)
+        end_list
+        (iter-add (cdr l) (append-item (car l) end_list))))
+  (iter-add start_list (list)))
