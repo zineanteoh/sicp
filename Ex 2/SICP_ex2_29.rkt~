@@ -1,0 +1,20 @@
+#lang sicp
+
+; Ex 2.29
+
+(define (make-mobile left right) (list left right))
+(define (left-branch mobile) (car mobile))
+(define (right-branch mobile) (car (cdr mobile)))
+
+(define (make-branch length structure) (list length structure))
+(define (branch-length branch) (car branch))
+(define (branch-structure branch) (car (cdr branch)))
+
+(define (total-weight mobile)
+  (define (weight branch)
+    (let ((structure (branch-structure branch)))
+      (if (number? structure)
+        structure
+        (total-weight structure))))
+  (+ (weight (left-branch mobile))
+     (weight (right-branch mobile))))

@@ -1,0 +1,11 @@
+#lang sicp
+
+; Ex 2.28
+
+(define (fringe tree)
+  (if (pair? tree)
+      (append (fringe (car tree)) (fringe (cdr tree)))
+      (if (not (null? tree))
+          (list tree)
+          (list))))
+

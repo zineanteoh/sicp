@@ -1,0 +1,21 @@
+#lang sicp
+
+; Ex 2.27
+
+(define (reverse items)
+  (define (iter items ans)
+    (if (null? items)
+        ans
+        (iter (cdr items) (cons (car items)
+                                ans))))
+  (iter items (list)))
+
+(define (deep-reverse items)
+  (define (iter items ans)
+    (if (null? items)
+        ans
+        (iter (cdr items) (cons (if (pair? (car items))
+                                    (iter (car items) (list))
+                                    (car items))
+                                ans))))
+  (iter items (list)))
