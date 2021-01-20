@@ -1,0 +1,97 @@
+#lang sicp
+
+; Ex 2.42
+
+(define (queens board-size)
+  (define (queen-cols k)
+    (if (= k 0)
+        (list empty-board)
+        (filter (lambda (positions)
+                  (safe? k positions))
+                (flatmap (lambda (rest-of-queens)
+                           (map (lambda (new-row)
+                                  (adjoin-position
+                                   new-row k rest-of-queens))
+                                (enumerate-interval 1 board-size)))
+                         (queen-cols (- k 1))))))
+  (queen-cols board-size))
+
+(define (adjoin-position new-row k rest-of-queens)
+  (append rest-of-queens (list (list k new-row))))
+
+; check (list-ref positions k)
+; 
+(define (safe? k positions)
+  (or (= k 1)
+      (and (unique? k (get-rows positions))
+           (unique? k (get-cols positions))
+           (check-diag k positions))))
+
+(define (unique? k seq)
+  (if (null? (cdr seq))
+      #t
+      (if (= (car seq) (list-ref seq (- k 1)))
+          #f
+          (unique? (- k 1) (cdr seq)))))
+
+(define (get-rows positions)
+  (if (null? positions)
+      nil
+      (cons (car (car positions))
+            (get-rows (cdr positions)))))
+
+(define (get-cols positions)
+  (if (null? positions)
+      nil
+      (cons (car (cdr (car positions)))
+            (get-cols (cdr positions)))))
+
+(define (check-diag k positions)
+  (let ((k-pos (list-ref positions (- k 1))))
+    (null? (filter (lambda (pos)
+                          (let ((x1 (car pos))
+                                (y1 (car (cdr pos)))
+                                (x2 (car k-pos))
+                                (y2 (car (cdr k-pos))))
+                            (= (abs (/ (- y2 y1)
+                                       (- x2 x1))) 1)))
+                        (remove-last-position positions)))))
+
+(define (remove-last-position positions)
+  (reverse (cdr (reverse positions))))
+
+(define (get-diff positions)
+  (if (null? positions)
+      nil
+      (let ((item (car positions)))
+        (cons (- (car item) (car (cdr item)))
+              (get-diff (cdr positions))))))
+
+(define empty-board nil)
+
+
+; Supporting procedures
+
+(define (filter proc seq)
+  (cond ((null? seq) nil)
+        ((proc (car seq))
+         (cons (car seq)
+               (filter proc (cdr seq))))
+        (else (filter proc (cdr seq)))))
+
+(define (flatmap proc seq)
+  (accumulate append nil (map proc seq)))
+
+(define (enumerate-interval low high)
+  (if (> low high)
+      nil
+      (cons low (enumerate-interval (+ low 1) high))))
+
+(define (accumulate op init seq)
+  (if (null? seq)
+      init
+      (op (car seq)
+          (accumulate op init (cdr seq)))))
+
+(queens 8)
+;(check-diag 2 '((1 3) (2 1)))
