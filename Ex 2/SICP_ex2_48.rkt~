@@ -1,0 +1,25 @@
+#lang sicp
+(#%require sicp-pict)
+
+; Ex 2.48
+
+(define (make-segment start-segment end-segment)
+  (cons start-segment end-segment))
+(define (start-segment segment)
+  (cons segment))
+(define (end-segment segment)
+  (cdr segment))
+
+(define (segments->painter segment-list)
+  (lambda (frame)
+    (for-each
+     (lambda (segment)
+       (draw-line
+        ((frame-coord-map frame)
+         (start-segment segment))
+        ((frame-coord-map frame)
+         (end-segment segment))))
+     segment-list)))
+
+
+

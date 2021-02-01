@@ -1,0 +1,99 @@
+#lang sicp
+(#%require sicp-pict)
+;(#%require (planet "sicp.ss" ("soegaard" "sicp.plt" 2 1)))
+
+; Ex 2.49
+
+; a. The painter that draws the outline of the designated frame
+(define (frame-painter frame)
+  (let ((o (origin frame))
+        (e1 (edge1 frame))
+        (e2 (edge2 frame)))
+    (let ((o+e1 (add-vect o e1))
+          (o+e2 (add-vect o e2))
+          (o+e1+e2 (add-vect o (add-vect e1 e2))))
+      (segments->painter (list (make-segment o o+e1)
+                               (make-segment o+e1 o+e1+e2)
+                               (make-segment o o+e2)
+                               (make-segment o+e2 o+e1+e2))))))
+
+; b. The painter that draws an "X" by connecting opposite corners of the frame
+(define (x-painter frame)
+  (let ((o (origin frame))
+        (e1 (edge1 frame))
+        (e2 (edge2 frame)))
+    (let ((bottom-left o)
+          (top-left (add-vect o e2))
+          (bottom-right (add-vect o e1))
+          (top-right (add-vect o (add-vect e1 e2))))
+      (segments->painter (list (make-segment bottom-left top-right)
+                               (make-segment top-left bottom-right))))))
+
+; c. The painter that draws a diamond shape by connecting the midpoints
+;    of the sides of the frame
+(define (diamond-painter frame)
+  (define (half-vect v)
+    (scale-vect 0.5 v))
+  (let ((o (origin frame))
+        (e1 (edge1 frame))
+        (e2 (edge2 frame)))
+    (let ((left (add-vect o (half-vect e2)))
+          (bottom (add-vect o (half-vect e1)))
+          (top (add-vect (add-vect o e2) (half-vect e1)))
+          (right (add-vect (add-vect o e1) (half-vect e2))))
+      (segments->painter (list (make-segment left top)
+                               (make-segment top right)
+                               (make-segment right bottom)
+                               (make-segment bottom left))))))
+
+; d. The wave painer
+; imma skip that
+
+
+
+
+; Supporting procedures
+
+; Vectors
+(define (make-vect x y) (cons x y))
+(define (xcor-vect v) (car v))
+(define (ycor-vect v) (cdr v))
+(define (add-vect v1 v2)
+  (make-vect (+ (xcor-vect v1) (xcor-vect v2))
+             (+ (ycor-vect v1) (ycor-vect v2))))
+(define (sub-vect v1 v2)
+  (make-vect (- (xcor-vect v1) (xcor-vect v2))
+             (- (ycor-vect v1) (ycor-vect v2))))
+(define (scale-vect s v)
+  (make-vect (* s (xcor-vect v))
+             (* s (ycor-vect v))))
+
+; Frames
+(define (make-frame origin edge1 edge2)
+  (list origin edge1 edge2))
+(define origin car)
+(define (edge1 frame)
+  (car (cdr frame)))
+(define (edge2 frame)
+  (car (cdr (cdr frame))))
+
+; Segments
+(define make-segment cons)
+(define start-segment car)
+(define end-segment cdr)
+
+; segment->painter
+(define (segments->painter segment-list)
+  (lambda (frame)
+    (for-each
+     (lambda (segment)
+       (draw-line
+        ((frame-coord-map frame)
+         (start-segment segment))
+        ((frame-coord-map frame)
+         (end-segment segment))))
+     segment-list)))
+
+(define (draw-line p1 p2)
+  (0))
+
